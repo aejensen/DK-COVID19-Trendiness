@@ -7,8 +7,8 @@ band <- function(t, l, u, col) {
 makePlot <- function(m) {
   par(mfrow=c(1,3), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
   plot(m$t, m$y, pch = 19, xlab="Antal dage siden 1. Marts", ylab="f | Y", 
-       type="n", ylim=c(0, 100), xaxt="n", xlim=c(0,120))
-  axis(1, seq(0, 120, length.out=11))
+       type="n", ylim=c(0, 100), xaxt="n", xlim=c(0,140))
+  axis(1, seq(0, 140, length.out=11))
   #band(tPred, apply(m$post[,,2], 2, quantile, prob = 0.025), 
   #     apply(m$post[,,2], 2, quantile, prob = 0.975), col = "gray85")
   band(tPred, apply(m$post[,,1], 2, quantile, prob = 0.025), 
@@ -25,10 +25,10 @@ makePlot <- function(m) {
          lty = c(1, NA), pch = c(NA, 15), pt.cex=1.5)
   title("Antal daglige indlæggelser", font.main=2)
   
-  plot(tPred, apply(m$post[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,120),
+  plot(tPred, apply(m$post[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,140),
        ylim=c(-6, 8), xlab="Antal dage siden 1. Marts", ylab="df | Y", xaxt="n")
   axis(2, seq(-8, 8, 2))
-  axis(1, seq(0, 120, length.out=11))
+  axis(1, seq(0, 140, length.out=11))
   band(tPred, apply(m$post[,,3], 2, quantile, prob = 0.025), 
        apply(m$post[,,3], 2, quantile, prob = 0.975), col = "gray65")
   lines(tPred, apply(m$post[,,3], 2, mean), lwd = 2)
@@ -39,8 +39,8 @@ makePlot <- function(m) {
   title("Ændring i antal daglige indlæggelser", font.main=2)
   
   plot(tPred, t(m$post[1,,5])*100, type="l", lty = 1, lwd = 2, xlab="Antal dage siden 1. Marts", 
-       ylab="TDI [%]", ylim=c(0,100), xaxt="n", xlim=c(0, 120))
-  axis(1, seq(0, 120, length.out=11))
+       ylab="TDI [%]", ylim=c(0,100), xaxt="n", xlim=c(0, 140))
+  axis(1, seq(0, 140, length.out=11))
   abline(h = 50, lty = 2)
   title("Trend Direction Index", font.main=2)
 }
@@ -51,3 +51,8 @@ dev.off()
 
 # Summary statistics
 round(total$post[1,,5]*100, 2)
+
+library(rootSolve)
+round(uniroot.all(function(x) approxfun(tPred, total$post[1,,5])(x) - 0.5, c(0, 140)))
+
+as.Data("")
