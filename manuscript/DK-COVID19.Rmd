@@ -10,7 +10,7 @@ output: pdf_document
 bibliography: bibliography.bib
 ---
 
-Covid-19 har sat et kæmpe aftryk på 2020, men efterhånden er 
+COVID-19 har sat et kæmpe aftryk på 2020, men efterhånden er 
 Danmark godt på vej til at være genåbnet. Forretningsliv, resturanter og caféer er tilbage i funktion - dog ikke i normal grad men i hvert fald delvist, og skoler, gymnasier og uddannelsesinstitutionerne er klar til at åbne dørene efter sommerferien.
 
 De seneste måneder har været forbundet med stor usikkerhed, da vi ikke i nyere tid har oplevet noget tilsvarende, og både før og efter lockdown-forløbet har der været tvivl om, hvordan det ville gå.
