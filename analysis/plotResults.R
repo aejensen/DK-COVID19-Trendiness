@@ -1,58 +1,158 @@
+#rm(list=ls())
+
 load("DK-COVID19.RData")
 
 band <- function(t, l, u, col) {
   polygon(c(t, rev(t)), c(l, rev(u)), col=col, border = NA)
 }
 
-makePlot <- function(m) {
-  par(mfrow=c(1,3), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
-  plot(m$t, m$y, pch = 19, xlab="Antal dage siden 1. Marts", ylab="f | Y", 
-       type="n", ylim=c(0, 100), xaxt="n", xlim=c(0,140))
-  axis(1, seq(0, 140, length.out=11))
-  #band(tPred, apply(m$post[,,2], 2, quantile, prob = 0.025), 
-  #     apply(m$post[,,2], 2, quantile, prob = 0.975), col = "gray85")
-  band(tPred, apply(m$post[,,1], 2, quantile, prob = 0.025), 
-       apply(m$post[,,1], 2, quantile, prob = 0.975), col = "gray65")
-  lines(tPred, apply(m$post[,,1], 2, mean), lwd = 2)
-  points(m$t, m$y, pch = 19, cex=0.5)
-  #legend("topleft", 
-  #       c("Mean", "95% credible interval", "95% posterior prediction interval"), 
-  #       col = c("black", "gray65", "gray85"), lwd = 2, bty="n", cex=0.7, 
-  #       lty = c(1, NA, NA), pch = c(NA, 15, 15), pt.cex=1.5)
-  legend("topleft", 
-         c("Gennemsnit", "95% sandsynlighedsinterval"), 
-         col = c("black", "gray65"), lwd = 2, bty="n", cex=0.7, 
-         lty = c(1, NA), pch = c(NA, 15), pt.cex=1.5)
-  title("Antal daglige indlæggelser", font.main=2)
-  
-  plot(tPred, apply(m$post[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,140),
-       ylim=c(-6, 8), xlab="Antal dage siden 1. Marts", ylab="df | Y", xaxt="n")
-  axis(2, seq(-8, 8, 2))
-  axis(1, seq(0, 140, length.out=11))
-  band(tPred, apply(m$post[,,3], 2, quantile, prob = 0.025), 
-       apply(m$post[,,3], 2, quantile, prob = 0.975), col = "gray65")
-  lines(tPred, apply(m$post[,,3], 2, mean), lwd = 2)
-  abline(h = 0, lty = 2)
-  legend("topleft", 
-         c("Gennemsnit", "95% sandsynlighedsinterval"), col = c("black", "gray65"), 
-         lwd = 2, bty="n", cex=0.7, lty = c(1, NA), pch = c(NA, 15), pt.cex=1.5)
-  title("Ændring i antal daglige indlæggelser", font.main=2)
-  
-  plot(tPred, t(m$post[1,,5])*100, type="l", lty = 1, lwd = 2, xlab="Antal dage siden 1. Marts", 
-       ylab="TDI [%]", ylim=c(0,100), xaxt="n", xlim=c(0, 140))
-  axis(1, seq(0, 140, length.out=11))
-  abline(h = 50, lty = 2)
-  title("Trend Direction Index", font.main=2)
-}
+########################################################################
+# Figure 1
+########################################################################
+pdf("fig1.pdf", width = 10, height = 5)
+par(mfrow=c(1,2), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
 
-pdf("covid19DK_fit.pdf", width = 10, height = 4)
-makePlot(total)
+plot(total$t, total$y, pch = 19, xlab="Antal dage siden 1. Marts 2020", 
+     ylab="Antal indlæggelser", type="n", ylim=c(0, 100), xaxt="n", xlim=c(0,140))
+
+#lines(rep(as.Date("2020-03-11") - as.Date("2020-03-01"), 2), c(0, 77), lty=1)
+#points(as.Date("2020-03-11") - as.Date("2020-03-01"), 77, pch=1)
+#text(as.Date("2020-03-11") - as.Date("2020-03-01"), 77, "Danmark\nlukker", pos = 3, cex=0.5)
+
+#lines(rep(as.Date("2020-04-15") - as.Date("2020-03-01"), 2), c(0, 77), lty=1)
+#points(as.Date("2020-04-15") - as.Date("2020-03-01"), 77, pch=1)
+#text(as.Date("2020-04-15") - as.Date("2020-03-01"), 77, "Skoler op til\n5. klasse åbner", pos = 3, cex=0.5)
+
+#lines(rep(as.Date("2020-04-20") - as.Date("2020-03-01"), 2), c(0, 77), lty=1)
+#points(as.Date("2020-04-20") - as.Date("2020-03-01"), 77, pch=1)
+#text(as.Date("2020-04-20") - as.Date("2020-03-01"), 82, "Frisører og køre-\nskoler åbner", pos = 3, cex=0.5)
+
+#lines(rep(as.Date("2020-05-18") - as.Date("2020-03-01"), 2), c(0, 77), lty=1)
+#points(as.Date("2020-05-18") - as.Date("2020-03-01"), 77, pch=1)
+#text(as.Date("2020-05-18") - as.Date("2020-03-01"), 77, "Restauranter\nåbner", pos = 3, cex=0.5)
+
+#lines(rep(as.Date("2020-05-27") - as.Date("2020-03-01"), 2), c(0, 77), lty=1)
+#points(as.Date("2020-05-27") - as.Date("2020-03-01"), 77, pch=1)
+#text(as.Date("2020-05-27") - as.Date("2020-03-01"), 82, "Gymnasier\nåbner", pos = 3, cex=0.5)
+
+lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+
+axis(1, seq(0, 140, length.out=11))
+band(tPred, 
+     apply(total$post[,,1], 2, quantile, prob = 0.025), 
+     apply(total$post[,,1], 2, quantile, prob = 0.975), col = "gray65")
+lines(tPred, apply(total$post[,,1], 2, mean), lwd = 2)
+points(total$t, total$y, pch = 19, cex=0.5)
+legend(82, 98,
+       c("Gennemsnit", "95% sandsynlighedsinterval"), 
+       col = c("black", "gray65"), lwd = 2, bty="n", cex=0.7, 
+       lty = c(1, NA), pch = c(NA, 15), pt.cex=1.5)
+title("Antal daglige indlæggelser", font.main=1)
+
+text(as.Date("2020-03-15") - as.Date("2020-03-01"), 96, "Marts", pos=3, cex=0.8)
+text(as.Date("2020-04-15") - as.Date("2020-03-01"), 96, "April", pos=3, cex=0.8)
+text(as.Date("2020-05-15") - as.Date("2020-03-01"), 96, "Maj", pos=3, cex=0.8)
+text(as.Date("2020-06-15") - as.Date("2020-03-01"), 96, "Juni", pos=3, cex=0.8)
+text(as.Date("2020-07-15") - as.Date("2020-03-01"), 96, "Juli", pos=3, cex=0.8)
+#
+plot(tPred, apply(total$post[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,140),
+     ylim=c(-6, 8), xlab="Antal dage siden 1. Marts 2020", 
+     ylab="Ændring i antal indlæggelser", xaxt="n")
+
+#lines(rep(as.Date("2020-03-11") - as.Date("2020-03-01"), 2), c(-6, 4.78), lty=1)
+#points(as.Date("2020-03-11") - as.Date("2020-03-01"), 4.78, pch=1)
+#lines(rep(as.Date("2020-04-15") - as.Date("2020-03-01"), 2), c(-6, 4.78), lty=1)
+#points(as.Date("2020-04-15") - as.Date("2020-03-01"), 4.78, pch=1)
+#lines(rep(as.Date("2020-04-20") - as.Date("2020-03-01"), 2), c(-6, 4.78), lty=1)
+#points(as.Date("2020-04-20") - as.Date("2020-03-01"), 4.78, pch=1)
+#lines(rep(as.Date("2020-05-18") - as.Date("2020-03-01"), 2), c(-6, 4.78), lty=1)
+#points(as.Date("2020-05-18") - as.Date("2020-03-01"), 4.78, pch=1)
+#lines(rep(as.Date("2020-05-27") - as.Date("2020-03-01"), 2), c(-6, 4.78), lty=1)
+#points(as.Date("2020-05-27") - as.Date("2020-03-01"), 4.78, pch=1)
+
+lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
+lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
+lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
+lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
+
+axis(2, seq(-8, 8, 2))
+axis(1, seq(0, 140, length.out=11))
+band(tPred, 
+     apply(total$post[,,3], 2, quantile, prob = 0.025), 
+     apply(total$post[,,3], 2, quantile, prob = 0.975), col = "gray65")
+lines(tPred, apply(total$post[,,3], 2, mean), lwd = 2)
+abline(h = 0, lty = 2)
+#legend("topleft", 
+#       c("Gennemsnit", "95% sandsynlighedsinterval"), col = c("black", "gray65"), 
+#       lwd = 2, bty="n", cex=0.7, lty = c(1, NA), pch = c(NA, 15), pt.cex=1.5)
+title("Ændring i antal daglige indlæggelser", font.main=1)
+
+text(as.Date("2020-03-15") - as.Date("2020-03-01"), 7.5, "Marts", pos=3, cex=0.8)
+text(as.Date("2020-04-15") - as.Date("2020-03-01"), 7.5, "April", pos=3, cex=0.8)
+text(as.Date("2020-05-15") - as.Date("2020-03-01"), 7.5, "Maj", pos=3, cex=0.8)
+text(as.Date("2020-06-15") - as.Date("2020-03-01"), 7.5, "Juni", pos=3, cex=0.8)
+text(as.Date("2020-07-15") - as.Date("2020-03-01"), 7.5, "Juli", pos=3, cex=0.8)
+
 dev.off()
 
+########################################################################
+# Figure 2
+########################################################################
+pdf("fig2.pdf", width = 10, height = 5)
+par(mfrow=c(1,1), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
+plot(tPred, t(total$post[1,,5])*100, type="n", lty = 1, lwd = 2,
+     xlab="Antal dage siden 1. Marts 2020", 
+     ylab="Sandsynlighed for voksende antal indlæggelser [%]", 
+     ylim=c(0,100), xaxt="n", xlim=c(0, 140))
+
+lines(rep(as.Date("2020-03-11") - as.Date("2020-03-01"), 2), c(0, 80), lty=1)
+points(as.Date("2020-03-11") - as.Date("2020-03-01"), 80, pch=21, bg="white")
+lines(rep(as.Date("2020-04-15") - as.Date("2020-03-01"), 2), c(0, 80), lty=1)
+points(as.Date("2020-04-15") - as.Date("2020-03-01"), 80, pch=21, bg="white")
+lines(rep(as.Date("2020-04-20") - as.Date("2020-03-01"), 2), c(0, 80), lty=1)
+points(as.Date("2020-04-20") - as.Date("2020-03-01"), 80, pch=21, bg="white")
+lines(rep(as.Date("2020-05-18") - as.Date("2020-03-01"), 2), c(0, 80), lty=1)
+points(as.Date("2020-05-18") - as.Date("2020-03-01"), 80, pch=21, bg="white")
+lines(rep(as.Date("2020-05-27") - as.Date("2020-03-01"), 2), c(0, 80), lty=1)
+points(as.Date("2020-05-27") - as.Date("2020-03-01"), 80, pch=21, bg="white")
+
+text(as.Date("2020-03-11") - as.Date("2020-03-01"), 80, "Danmark\nlukker", pos = 3, cex=0.7)
+text(as.Date("2020-04-15") - as.Date("2020-03-01"), 80, "Skoler op til\n5. klasse åbner", pos = 3, cex=0.7)
+text(as.Date("2020-04-20") - as.Date("2020-03-01"), 87, "Frisører og køre-\nskoler åbner", pos = 3, cex=0.7)
+text(as.Date("2020-05-18") - as.Date("2020-03-01"), 80, "Restauranter\nåbner", pos = 3, cex=0.7)
+text(as.Date("2020-05-27") - as.Date("2020-03-01"), 83, "Gymnasier\nåbner", pos = 3, cex=0.7)
+
+lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+
+lines(tPred, t(total$post[1,,5])*100, type="l", lty = 1, lwd = 2)
+axis(1, seq(0, 140, length.out=11))
+abline(h = 50, lty = 2)
+title("Trend Direction Index", font.main=1)
+
+text(as.Date("2020-03-15") - as.Date("2020-03-01"), 99, "Marts", pos=3, cex=0.8)
+text(as.Date("2020-04-15") - as.Date("2020-03-01"), 99, "April", pos=3, cex=0.8)
+text(as.Date("2020-05-15") - as.Date("2020-03-01"), 99, "Maj", pos=3, cex=0.8)
+text(as.Date("2020-06-15") - as.Date("2020-03-01"), 99, "Juni", pos=3, cex=0.8)
+text(as.Date("2020-07-15") - as.Date("2020-03-01"), 99, "Juli", pos=3, cex=0.8)
+
+dev.off()
+
+#uSeq <- seq(0, 2, length.out=100)
+#alarmMat <- sapply(uSeq, function(u) apply(total$post[,,3], 2, function(q) mean(q > u))*100)
+#fields::image.plot(tPred[100:200], uSeq, alarmMat[100:200,], col=fields::tim.colors(128))
+#fields::image.plot(tPred, uSeq, alarmMat, col=fields::tim.colors(128))
+
+########################################################################
 # Summary statistics
+########################################################################
 round(total$post[1,,5]*100, 2)
 
 library(rootSolve)
-round(uniroot.all(function(x) approxfun(tPred, total$post[1,,5])(x) - 0.5, c(0, 140)))
+as.Date("2020-03-01") + round(uniroot.all(function(x) approxfun(tPred, total$post[1,,5])(x) - 0.5, c(0, 140)))
 
-as.Data("")

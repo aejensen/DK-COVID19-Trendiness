@@ -1,5 +1,5 @@
 ---
-title: "Covid-19: Hvornår blinker advarselslampen igen?"
+title: "COVID-19: Hvornår blinker advarselslampen igen?"
 author: | 
   | Andreas Kryger Jensen og Claus Thorn Ekstrøm
   | Biostatistisk Afdeling, Institut for Folkesundhedsvidenskab, Københavns Universitet 
@@ -9,8 +9,6 @@ header-includes:
 output: pdf_document
 bibliography: bibliography.bib
 ---
-
-# Introduktion
 
 Covid-19 har sat et kæmpe aftryk på 2020, men efterhånden er 
 Danmark godt på vej til at være genåbnet. Forretningsliv, resturanter og caféer er tilbage i funktion - dog ikke i normal grad men i hvert fald delvist, og skoler, gymnasier og uddannelsesinstitutionerne er klar til at åbne dørene efter sommerferien.
@@ -25,56 +23,35 @@ I øjeblikket er epidemien under kontrol herhjemme, og antallet af indlæggelser
 
 ## Hvordan måler man, hvordan det går lige nu?
 
-De to interessante spørgsmål at besvare lige nu er derfor "ser det ud til, at antallet af indlæggelser er voksende" og "hvordan er det egentlig gået"? Særligt kunne det være interesseret at undersøge, hvordan de forskellige politiske tiltag påvirkede udviklen i antallet af indlagte undervejs, og om vi nu er et sted, hvor "kurven er knækket". Vi har udviklet en matematisk metode til at besvare sidstnævnte spørgsmål ved at se på den underliggende trend i data [@Jensen2019QuantifyingTT]. 
+To interessante spørgsmål at besvare lige nu er derfor "ser det ud til, at antallet af indlæggelser er voksende" og "hvordan er det egentlig gået"? Særligt kunne det være interesseret at undersøge, hvordan de forskellige politiske tiltag påvirkede udviklen i antallet af indlagte undervejs, og om vi nu er et sted, hvor "kurven er knækket". Vi har udviklet en matematisk metode til at besvare sådanne spørgsmål ved at se på den underliggende trend i data [@Jensen2019QuantifyingTT]. 
 
+I denne type analyse forestiller man sig, at der eksisterer en underliggende udvikling hen over tid, som vi observerer data fra - f.eks. det daglige antal nye COVID-19-relaterede indlæggelser på de danske hospitaler. I analysen er man interesseret i at estimere denne underliggende udvikling men også dens *trend*. Begrebet trend skal her forstås om hvorvidt udviklingen er voksende, aftagende, eller om den står stille.^[Matematisk set er trenden defineret som den første afledte (differentialet) af den underliggende udvikling, og igennem en statistisk model kan man stille forskellige spørgsmål til, hvordan den har set ud givet det data, vi har tilgængelig nu.] Da der er tale om en statistisk model, vil svarerne på disse spørgsmål også være påvirket af den usikkerhed, der er til stede, og give sig udslag som sandsynligheder.
 
-^[XXXX Tror dette skal ud
-Sidstnævnte type spørgsmål har v
-har forskere fra Biostatistisk Afdeling, Institut for Folkesundhedsvidenskab, Københavns Universitet beskæftigt sig med tidligere  og udviklet en matematisk metode til trend-analyse.
-XXXX]
-
-
-
-I denne type analyse forestiller man sig, at der eksisterer en underliggende udvikling hen over tid, som vi observerer data fra - f.eks. det daglige antal nye COVID-19-relaterede indlæggelser på de danske hospitaler. I analysen er man interesseret i at estimere denne underliggende udvikling men også dens *trend*. Begrebet trend skal her forstås om hvorvidt udviklingen er voksende, aftagende, eller om den står stille.^[Matematisk set er trenden defineret som den første afledte (differentialet) af den underliggende udvikling, og igennem en statistisk model kan man stille forskellige spørgsmål til, hvordan den har set ud givet det data, vi har tilgængelig nu.] Da der er tale om en statistisk model, vil svarerne på disse spørgsmål også blive påvirket af den usikkerhed, der er til stede, og gice sig udslag som sandsynligheder.
-
-Et særligt spørgsmål, der kunne være interessant at stille netop nu, er, om udviklingen i antal nye indlæggelser har stabiliseret sig, eller om antallet af nye indlæggelser er voksende eller aftagende. Det kan det såkaldte *Trend Direction Index* svare på. Trend Direction Index er sandsynligheden for at den underliggende udvikling af kurven er voksende. Hvis dette index er højt, vil der være stor sandsynlighed for, at antallet af nye indlæggelser stadig tiltager, og omvendt hvis indexet er lavt. Hvis indexet er tæt på 50% vil vi være et sted i forløbet, hvor antal nye indlæggelser er stabilt og derfor hverken stiger eller falder.
+Et særligt spørgsmål, der kunne være interessant at stille netop nu, er, om udviklingen i antal nye indlæggelser har stabiliseret sig, eller om antallet af nye indlæggelser er voksende eller aftagende med en sigen sandsynlighed. Det kan det såkaldte *Trend Direction Index* svare på. Trend Direction Indekset er defineret som sandsynligheden for, at den underliggende udvikling af kurven er voksende. Hvis dette index er højt, vil der være stor sandsynlighed for, at antallet af nye indlæggelser stadig tiltager, og omvendt hvis indexet er lavt. Hvis indexet er tæt på 50% vil vi være et sted i forløbet, hvor antal nye indlæggelser er stabilt og derfor hverken stiger eller falder.
 
 # Hvad går det så rent faktisk lige nu?
 
 Vi har udført en analyse med den omtalte metode og de offentlig tilgængelige data fra Statens Serum Institut [@SSI]. Data blev hentet d. 15. juli 2020 og inkluderer perioden fra 1. marts 2020 til og med 14. juli 2020. Resultatet fra analysen ses i de to følgende figurer.
 
 \begin{figure}[htb]
-\center\includegraphics{../analysis/covid19DK_fit}
+\center\includegraphics{../analysis/fig1}
 \end{figure}
 
 Venstre graf i figur 1 viser de daglige indlæggelser som punkter, og det estimerede underliggende forløb som den sorte kurve. Det grå område viser et 95% sandsynlighedsinterval for det underliggende forløb. Med de foreliggende data har vi altså en ret præcis vurdering af det underliggende forløb. Højre graf i figur 1 viser udviklingen af den afledte - det vil sige hældningen - af kurven i den venstre graf. Hældningen er positiv indtil omkring 1. april, hvorefter antallet af daglige indlæggelser også begynder at falde drastisk. Vi ser også, at der de sidste ca. 60 dage har været en hældning omkring 0, hvilket betyder, at antallet af nye daglige indlæggelser har været nogenlunde konstant. 
 
-Højre side af grafen lader dog til måske at være voksende, og det er denne stigning, som man skal kunne reagere på hurtigst muligt. Hvis stigningen varer ved så begynder epidemien måske at løbe løbsk, hvilket vi gerne vil undgå. Den afledte kurve med tilhørende sandsynlighedsinterval kan sammenfattes i Trend DIrection Idenxet, der er vist for samme periode i figur 2.
+Højre side af grafen lader dog til måske at være voksende, og det er denne stigning, som man skal kunne reagere på hurtigst muligt. Hvis stigningen varer ved så begynder epidemien måske at løbe løbsk, hvilket vi gerne vil undgå. Den afledte kurve med tilhørende sandsynlighedsinterval kan sammenfattes i Trend Direction Indekset, der er vist for samme periode i figur 2.
 
 \begin{figure}[htb]
-\center\includegraphics{../analysis/covid19DK_fit}
+\center\includegraphics{../analysis/fig2}
 \end{figure}
 
-XXX Ændringer til figurerne. Første to i 1, TDI i sin egen. Typeface, font size, x-akse med datoer. Verticale linjer med datoer for events XXX
+Trend Direction Indekset viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efter 1. marts var det tydeligt, at kurven var voksende, og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 14. juli 2020 har indekset en værdi på 65\%. Dette er på den gale side af 50\%, og hvis denne sandsynlighed bliver større eller holder ved over en længere periode er det tid til at (gen-)indføre tiltag til at reducere danskernes kontaktflader, så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at Trend Direction Indekset ikke siger noget om, hvor kraftigt antallet af nye indlæggelser vokser. Blot at det underliggende forløb er stigende.
 
-Trend Direction Index viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efer 1. marts var det tydeligt, at kurven var voksende og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 14. juli 2020 har indekset en værdi på 65\%. Dette er på den gale side af 50\%, og hvis denne sandsynlighed vokser eller holder ved over en længere periode er det tid til at (gen-)indføre tiltag til at reducere danskernes kontaktflade så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at TDI ikke siger noget om, hvor kraftigt an antallet af nye indlæggelser vokser. Blot at den underliggende proces er stigende.
-
-Vi kan også bruge trend direction indekset fra figur 2 til at sammenholde med de politiske tiltag for at lukke og åbne landet. I figur 2 er der markeret datoerne for hvornår Danmark lukkede ned (11/3), skoler op til 5. klasse, vuggestuer og børnehaver åbnede op (15/4), frisører og køreskoler åbnede (20/4), restauranter åbnede (18/5) og gymnasier åbnede (27/5). Med ca. 14 dages inkubationstid passer disse fint med de "bølger" man finder for indekset.
-
-
-[Her skal der stå noget om forløbet undervejs og sammenlignet med politiske tildag og inkubationstid. Efter nedlukningen (post 28/3) er fire interessante "bølger" samt to steder hvor 50\% krydses i opadgående retning (22/6 og 7/7).]
-
-Datoer hvor TDI krydser 50\%:
-\begin{verbatim}
-> as.Date("2020-03-01") + round(uniroot.all(function(x) {
-    approxfun(tPred, total$post[1,,5])(x) - 0.5
-  }, c(0, 140)))
-[1] "2020-03-03" "2020-03-27" "2020-06-11" "2020-06-22" "2020-07-07"
-\end{verbatim}
+Vi kan også bruge Trend Direction Indekset fra figur 2 til at sammenholde med de politiske tiltag for at lukke og åbne landet. I figur 2 er der markeret datoerne for hvornår Danmark lukkede ned (11/3), skoler op til 5. klasse, vuggestuer og børnehaver åbnede op (15/4), frisører og køreskoler åbnede (20/4), restauranter åbnede (18/5) og gymnasier åbnede (27/5). Med ca. 14 dages inkubationstid passer disse fint med de "bølger" man finder for indekset.
 
 ## Diskussion
 
-Sålænge der endnu ikke er opnået flokimmunitet eller udviklet en vaccine, er det vigtigt, at udviklingen ikke bliver alt for voksende. Dette kan føre til endnu en eksponentiel udvikling, som sås tidligere, og som stadig ses i andre lande. [Måske noget med hvilke lande der har været nødt til at lave en second lockdown]. Statistiske metoder som Trend Direction Index'et kan altså være et nyttigt værktøjer til at monitorere udvikling løbende og sikre fortsat stabilitet under stadig større lempelser på tidligere restriktioner.
+Sålænge der endnu ikke er opnået flokimmunitet eller udviklet en vaccine, er det vigtigt, at udviklingen ikke bliver alt for voksende. Dette kan føre til endnu en eksponentiel udvikling, som sås tidligere, og som stadig ses i andre lande. Statistiske metoder som Trend Direction Index'et kan altså være et nyttigt værktøjer til at monitorere udvikling løbende og sikre fortsat stabilitet under stadig større lempelser på tidligere restriktioner.
 
 Materiale til at kunne reproducere denne artikel og tilhørende analyse findes på GitHub-siden \url{https://github.com/aejensen/DK-COVID19-Trendiness} [make public in due time].
 
