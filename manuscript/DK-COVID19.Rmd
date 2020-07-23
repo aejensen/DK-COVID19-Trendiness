@@ -32,7 +32,7 @@ Et særligt spørgsmål, der kunne være interessant at stille netop nu, er, om 
 
 # Hvad går det så rent faktisk lige nu?
 
-Vi har udført en analyse med den omtalte metode og de offentlig tilgængelige data fra Statens Serum Institut [@SSI]. Data blev hentet d. 15. juli 2020 og inkluderer perioden fra 1. marts 2020 til og med 14. juli 2020. Resultatet fra analysen ses i de to følgende figurer.
+Vi har udført en analyse med den omtalte metode og de offentlig tilgængelige data fra Statens Serum Institut [@SSI]. Data blev hentet d. 23. Juli 2020 og inkluderer perioden fra d. 1. Marts 2020 til og med d. 22. Juli 2020. Resultatet fra analysen ses i de to følgende figurer.
 
 \begin{figure}[htb]
 \center\includegraphics{../analysis/fig1}
@@ -48,7 +48,7 @@ Højre side af grafen lader dog til måske at være voksende, og det er denne st
 \caption*{Figur 2}
 \end{figure}
 
-Trend Direction Indekset viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efter 1. marts var det tydeligt, at kurven var voksende, og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 14. juli 2020 har indekset en værdi på 62\%. Dette er 12 procentpoint på den forkerte side af 50\%, og hvis denne sandsynlighed bliver større eller holder ved over en længere periode er det tid til at (gen-)indføre tiltag til at reducere danskernes kontaktflader, så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at Trend Direction Indekset ikke siger noget om, hvor kraftigt antallet af nye indlæggelser vokser. Blot at det underliggende forløb er stigende.
+Trend Direction Indekset viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efter 1. marts var det tydeligt, at kurven var voksende, og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 22. Juli 2020 har indekset en værdi på 62\%. Dette er 12 procentpoint på den forkerte side af 50\%, og hvis denne sandsynlighed bliver større eller holder ved over en længere periode er det tid til at (gen-)indføre tiltag til at reducere danskernes kontaktflader, så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at Trend Direction Indekset ikke siger noget om, hvor kraftigt antallet af nye indlæggelser vokser. Blot at det underliggende forløb er stigende.
 
 Vi kan også bruge Trend Direction Indekset fra figur 2 til at sammenholde med de politiske tiltag for at lukke og åbne landet. I figur 2 er der markeret datoerne for hvornår Danmark lukkede ned (11/3), skoler op til 5. klasse, vuggestuer og børnehaver åbnede op (15/4), frisører og køreskoler åbnede (20/4), restauranter åbnede (18/5) og gymnasier åbnede (27/5). Med ca. 14 dages inkubationstid passer disse fint med de "bølger" man finder for indekset.
 
