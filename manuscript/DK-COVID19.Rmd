@@ -3,7 +3,7 @@ title: "COVID-19: Hvornår tænder advarselslampen igen?"
 author: | 
   | Andreas Kryger Jensen og Claus Thorn Ekstrøm
   | Biostatistisk Afdeling, Institut for Folkesundhedsvidenskab, Københavns Universitet 
-date: "23. Juli 2020"
+date: "24. juli 2020"
 header-includes:
   - \usepackage{caption}
   - \usepackage{hyperref}
@@ -55,7 +55,7 @@ Vi kan også bruge Trend Direction Indekset i figur 2 til at sammenholde med de 
 
 Sålænge der endnu ikke er opnået flokimmunitet eller udviklet en vaccine, er det vigtigt, at udviklingen ikke bliver alt for voksende. Dette kan føre til endnu en eksponentiel udvikling, som sås tidligere, og som stadig ses i andre lande. Statistiske metoder som Trend Direction Index'et kan altså være et nyttigt værktøjer til at monitorere udvikling løbende og sikre fortsat stabilitet under stadig større lempelser på tidligere restriktioner.
 
-Materiale til at kunne reproducere denne artikel og tilhørende analyse findes på GitHub-siden \url{https://github.com/aejensen/DK-COVID19-Trendiness}. [make public in due time]
+Materiale til at kunne reproducere denne artikel og tilhørende analyse findes på GitHub-siden \url{https://github.com/aejensen/DK-COVID19-Trendiness}.
 
 # Referencer
 
