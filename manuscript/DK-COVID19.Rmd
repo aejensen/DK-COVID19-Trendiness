@@ -1,5 +1,5 @@
 ---
-title: "COVID-19: Hvornår blinker advarselslampen igen?"
+title: "COVID-19: Hvornår tænder advarselslampen igen?"
 author: | 
   | Andreas Kryger Jensen og Claus Thorn Ekstrøm
   | Biostatistisk Afdeling, Institut for Folkesundhedsvidenskab, Københavns Universitet 
@@ -16,41 +16,40 @@ Danmark godt på vej til at være genåbnet. Forretningsliv, resturanter og caf�
 
 De seneste måneder har været forbundet med stor usikkerhed, da vi ikke i nyere tid har oplevet noget tilsvarende, og både før og efter lockdown-forløbet har der været tvivl om, hvordan det ville gå.
 
-Takket være ekspertgruppen under Statens Serum Institut har der været lavet prognoser og fremskrivninger baseret på matematiske modeller og data fra det danske sundhedssystem, som har guided os igennem forløbet. 
+Takket være ekspertgruppen under Statens Serum Institut har der været lavet prognoser og fremskrivninger baseret på matematiske modeller og data fra det danske sundhedssystem, som har guidet os igennem forløbet. Det primære fokus i disse modeller var antallet af indlæggelser, så den nødvendige kapacitet af intensivpladser fremadrettet var sikret for at alle smittede kunne få den bedste behandling. 
 Særligt i starten var disse prognoser baseret på meget lidt data, hvilket vi har skrevet om tidligere [@videnskabdk]. 
-Det primære fokus i disse modeller var antallet af indlæggelser, så den nødvendige kapacitet af intensivpladser fremadrettet var sikret for at alle smittede kunne få den bedste behandling. 
 
-I øjeblikket er epidemien under kontrol herhjemme, og antallet af indlæggelser har ligget nogenlunde jævnt på ca XXX indlæggelser/døgn de sidste YY uger. Det betyder, at fokus nu skifter fra at kunne sige, hvordan det kommer til at gå, til at kunne vurdere om de daglige indlæggelser pludselig er voksende.
+I øjeblikket er epidemien under kontrol herhjemme, og antallet af indlæggelser har ligget nogenlunde jævnt på under 10 indlæggelser/døgn de sidste mange uger. Det betyder, at fokus nu skifter fra at kunne lave prognoser, der fortæller, hvordan det kommer til at gå på længere sigt til at vurdere om de daglige indlæggelser pludselig er voksende.
 
 ## Hvordan måler man, hvordan det går lige nu?
 
-To interessante spørgsmål at besvare lige nu er derfor "ser det ud til, at antallet af indlæggelser er voksende" og "hvordan er det egentlig gået"? Særligt kunne det være interesseret at undersøge, hvordan de forskellige politiske tiltag påvirkede udviklen i antallet af indlagte undervejs, og om vi nu er et sted, hvor "kurven er knækket". Vi har udviklet en matematisk metode til at besvare sådanne spørgsmål ved at se på den underliggende trend i data [@Jensen2019QuantifyingTT]. 
+To interessante spørgsmål at besvare lige nu er derfor "ser det ud til, at den flade kurve er knækket og at antallet af indlæggelser begynder at vokse" og "hvordan er det egentlig gået efter de politiske tiltag"? Vi har udviklet en matematisk metode til at besvare sådanne spørgsmål ved at se på den underliggende trend i data [@Jensen2019QuantifyingTT]. 
 
-I denne type analyse forestiller man sig, at der eksisterer en underliggende udvikling hen over tid, som vi observerer data fra - f.eks. det daglige antal nye COVID-19-relaterede indlæggelser på de danske hospitaler. I analysen er man interesseret i at estimere denne underliggende udvikling men også dens *trend*. Begrebet trend skal her forstås om hvorvidt udviklingen er voksende, aftagende, eller om den står stille.^[Matematisk set er trenden defineret som den første afledte (differentialet) af den underliggende udvikling, og igennem en statistisk model kan man stille forskellige spørgsmål til, hvordan den har set ud givet det data, vi har tilgængelig nu.] Da der er tale om en statistisk model, vil svarerne på disse spørgsmål også være påvirket af den usikkerhed, der er til stede, og give sig udslag som sandsynligheder.
+I denne type analyse forestiller man sig, at der eksisterer en skjult udvikling hen over tid, og at det er denne udvikling, som vi observerer data fra - f.eks. det daglige antal nye COVID-19-relaterede indlæggelser på de danske hospitaler. I analysen er man interesseret i at estimere denne underliggende udvikling og i særdeleshed dens *trend*. Med begrebet trend skal her forstås, om udviklingen er voksende, aftagende eller om den står stille.^[Matematisk set er trenden defineret som den første afledte (differentialet) af den underliggende udvikling.]  Via den statistiske model kan man vurdere, hvordan denne trend ser ud nu og hvordan den tidligere har set ud. Svarene fra den statistiske model vil påvirke og afspejle den usikkerhed, der er tilstede i data.
 
-Et særligt spørgsmål, der kunne være interessant at stille netop nu, er, om udviklingen i antal nye indlæggelser har stabiliseret sig, eller om antallet af nye indlæggelser er voksende eller aftagende med en sigen sandsynlighed. Det kan det såkaldte *Trend Direction Index* svare på. Trend Direction Indekset er defineret som sandsynligheden for, at den underliggende udvikling af kurven er voksende. Hvis dette index er højt, vil der være stor sandsynlighed for, at antallet af nye indlæggelser stadig tiltager, og omvendt hvis indexet er lavt. Hvis indexet er tæt på 50% vil vi være et sted i forløbet, hvor antal nye indlæggelser er stabilt og derfor hverken stiger eller falder.
+Et særligt spørgsmål, der kunne være interessant at stille netop nu, er, om udviklingen i antal nye indlæggelser har stabiliseret sig, eller om antallet af nye indlæggelser er voksende eller aftagende med en bestemt sandsynlighed. Det kan det såkaldte *Trend Direction Index* (TDI) svare på. Trend Direction Indekset er defineret som sandsynligheden for, at den underliggende udvikling af kurven er voksende. Hvis dette index er højt, vil der være stor sandsynlighed for, at antallet af nye indlæggelser stadig tiltager. Er det derimod lavt er der lille sandsynlighed for at indekset stiger. Hvis indekset er tæt på 50% vil vi være et sted i forløbet, hvor antal nye indlæggelser er stabilt og derfor hverken stiger eller falder.
 
-# Hvad går det så rent faktisk lige nu?
+# Hvordan går det så rent faktisk lige nu?
 
-Vi har udført en analyse med den omtalte metode og de offentlig tilgængelige data fra Statens Serum Institut [@SSI]. Data blev hentet d. 23. Juli 2020 og inkluderer perioden fra d. 1. Marts 2020 til og med d. 22. Juli 2020. Resultatet fra analysen ses i de to følgende figurer.
+Vi har udført en analyse med den omtalte metode og de offentlig tilgængelige data fra Statens Serum Institut [@SSI]. Data blev hentet d. 23. juli 2020 og inkluderer perioden fra d. 1. marts 2020 til og med d. 22. juli 2020. Resultatet fra analysen ses i de to følgende figurer.
 
 \begin{figure}[htb]
 \center\includegraphics{../analysis/fig1}
 \caption*{Figur 1}
 \end{figure}
 
-Venstre graf i figur 1 viser de daglige indlæggelser som punkter, og det estimerede underliggende forløb som den sorte kurve. Det grå område viser et 95% sandsynlighedsinterval for det underliggende forløb. Med de foreliggende data har vi altså en ret præcis vurdering af det underliggende forløb. Højre graf i figur 1 viser udviklingen af den afledte - det vil sige hældningen - af kurven i den venstre graf. Hældningen er positiv indtil omkring 1. april, hvorefter antallet af daglige indlæggelser også begynder at falde drastisk. Vi ser også, at der de sidste ca. 60 dage har været en hældning omkring 0, hvilket betyder, at antallet af nye daglige indlæggelser har været nogenlunde konstant. 
+Venstre graf i figur 1 viser de daglige indlæggelser som punkter, og det estimerede underliggende forløb som den sorte kurve. Det grå område viser et 95% sandsynlighedsinterval for det underliggende forløb. Vi har altså en ret præcis vurdering af det underliggende forløb. Højre graf i figur 1 viser udviklingen af den afledte - det vil sige hældningen - af kurven i den venstre graf. Hældningen er positiv indtil kort før 1. april, hvorefter antallet af daglige indlæggelser også begynder at falde drastisk. Vi ser også, at der de sidste ca. 60 dage har været en hældning omkring 0, hvilket betyder, at antallet af nye daglige indlæggelser har været nogenlunde konstant. 
 
-Højre side af grafen lader dog til måske at være voksende, og det er denne stigning, som man skal kunne reagere på hurtigst muligt. Hvis stigningen varer ved så begynder epidemien måske at løbe løbsk, hvilket vi gerne vil undgå. Den afledte kurve med tilhørende sandsynlighedsinterval kan sammenfattes i Trend Direction Indekset, der er vist for samme periode i figur 2.
+Længst til højre lader grafen dog til måske at være voksende, og det er denne stigning, som man skal kunne reagere på hurtigst muligt. Hvis stigningen varer ved så begynder epidemien måske at løbe løbsk, hvilket vi gerne vil undgå. Den afledte kurve med tilhørende sandsynlighedsinterval kan sammenfattes i Trend Direction Indekset, der er vist for samme periode i figur 2.
 
 \begin{figure}[htb]
 \center\includegraphics{../analysis/fig2}
 \caption*{Figur 2}
 \end{figure}
 
-Trend Direction Indekset viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efter 1. marts var det tydeligt, at kurven var voksende, og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 22. Juli 2020 har indekset en værdi på 62\%. Dette er 12 procentpoint på den forkerte side af 50\%, og hvis denne sandsynlighed bliver større eller holder ved over en længere periode er det tid til at (gen-)indføre tiltag til at reducere danskernes kontaktflader, så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at Trend Direction Indekset ikke siger noget om, hvor kraftigt antallet af nye indlæggelser vokser. Blot at det underliggende forløb er stigende.
+Trend Direction Indekset viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efter 1. marts var det tydeligt, at kurven var voksende, og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 22. juli) har indekset en værdi på 62\%. Dette er 12 procentpoint på den forkerte side af 50\%. Hvis denne sandsynlighed bliver større eller holder ved over en længere periode, er det tid til at overveje at (gen-)indføre tiltag til at reducere danskernes kontaktflader, så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at Trend Direction Indekset ikke siger noget om, hvor kraftigt antallet af nye indlæggelser vokser. Blot at det underliggende forløb er stigende.
 
-Vi kan også bruge Trend Direction Indekset fra figur 2 til at sammenholde med de politiske tiltag for at lukke og åbne landet. I figur 2 er der markeret datoerne for hvornår Danmark lukkede ned (11/3), skoler op til 5. klasse, vuggestuer og børnehaver åbnede op (15/4), frisører og køreskoler åbnede (20/4), restauranter åbnede (18/5) og gymnasier åbnede (27/5). Med ca. 14 dages inkubationstid passer disse fint med de "bølger" man finder for indekset.
+Vi kan også bruge Trend Direction Indekset i figur 2 til at sammenholde med de tidligere politiske tiltag om at lukke og åbne landet. Datoerne for hvornår Danmark lukkede ned (11/3), skoler op til 5. klasse, vuggestuer og børnehaver åbnede op (15/4), frisører og køreskoler åbnede (20/4), restauranter åbnede (18/5) og gymnasier åbnede (27/5) er vist i figur 2. Med godt 14 dages inkubationstid passer disse fint med de "bølger", man finder for indekset.
 
 ## Diskussion
 
