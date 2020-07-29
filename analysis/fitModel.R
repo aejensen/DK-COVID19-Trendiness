@@ -16,12 +16,12 @@ parallel:::setDefaultClusterOptions(setup_strategy = "sequential")
 ########################################################
 # Load data
 ########################################################
-#Downloaded July 28th 2020 from
+#Downloaded July 29th 2020 from
 #https://www.ssi.dk/sygdomme-beredskab-og-forskning/sygdomsovervaagning/c/covid19-overvaagning
 d <- read.csv("../data/Newly_admitted_over_time.csv", sep=";")
 
 tObs <- as.numeric(as.Date(d$Dato) - as.Date("2020-03-01"))
-tPred <- seq(min(tObs), max(tObs), length.out = ceiling(length(tObs)*2))
+tPred <- seq(min(tObs), max(tObs), length.out = ceiling(length(tObs)*1))
 
 ########################################################
 # Fit model

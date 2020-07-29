@@ -10,6 +10,7 @@ band <- function(t, l, u, col) {
 # Figure 1
 ########################################################################
 pdf("fig1.pdf", width = 10, height = 5)
+
 par(mfrow=c(1,2), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
 
 plot(total$t, total$y, pch = 19, xlab="Antal dage siden 1. marts 2020", 
@@ -72,6 +73,7 @@ dev.off()
 # Figure 2
 ########################################################################
 pdf("fig2.pdf", width = 10, height = 5)
+
 par(mfrow=c(1,1), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.4,0.4,0))
 plot(tPred, t(total$post[1,,5])*100, type="n", lty = 1, lwd = 2,
      xlab="Antal dage siden 1. marts 2020", 
