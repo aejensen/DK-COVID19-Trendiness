@@ -1,1 +1,1 @@
-convert -delay 40 -loop 1 *.png jointPosterior.gif
+convert -delay 10 -loop 1 *.png jointPosterior.gif
