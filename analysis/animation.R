@@ -16,7 +16,7 @@ for(i in t_start:t_end) {
   
   png(filename = paste("../animation/fig_", sprintf("%03d", i - t_start), ".png", sep=""), width = 1024, height = 1024)
   
-  e <- kde2d(f_post[,i], df_post[,i], n = 400, lims=c(0, 10, -2, 2))
+  e <- kde2d(f_post[,i], df_post[,i], n = 300, lims=c(0, 10, -2, 2))
 
   par(bty="n")
   image(e, xlim=c(0, 10), ylim=c(-2, 2),

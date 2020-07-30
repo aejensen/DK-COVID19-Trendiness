@@ -14,14 +14,14 @@ pdf("fig1.pdf", width = 10, height = 5)
 par(mfrow=c(1,2), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
 
 plot(total$t, total$y, pch = 19, xlab="Antal dage siden 1. marts 2020", 
-     ylab="Antal", type="n", ylim=c(0, 100), xaxt="n", xlim=c(0,150))
-axis(1, c(0, 150), label=c("",""))
-axis(1, seq(0, 145, 14), cex.axis=0.95)
-
+     ylab="Antal", type="n", ylim=c(0, 100), xaxt="n", xlim=c(0,154))
+#axis(1, c(0, 150), label=c("",""))
+axis(1, seq(0, 154, 14), cex.axis=0.95)
 lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 
 band(tPred, 
      apply(total$post[,,1], 2, quantile, prob = 0.025), 
@@ -42,7 +42,7 @@ text(as.Date("2020-07-15") - as.Date("2020-03-01"), 96, "Juli", pos=3, cex=0.8)
 
 #
 
-plot(tPred, apply(total$post[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,150),
+plot(tPred, apply(total$post[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,154),
      ylim=c(-6, 8), xlab="Antal dage siden 1. marts 2020", 
      ylab="Hældning", xaxt="n")
 
@@ -52,8 +52,8 @@ lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, co
 lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
 
 axis(2, seq(-8, 8, 2))
-axis(1, c(0, 150), label=c("",""))
-axis(1, seq(0, 145, 14), cex.axis=0.95)
+#axis(1, c(0, 150), label=c("",""))
+axis(1, seq(0, 154, 14), cex.axis=0.95)
 band(tPred, 
      apply(total$post[,,3], 2, quantile, prob = 0.025), 
      apply(total$post[,,3], 2, quantile, prob = 0.975), col = "gray65")
@@ -78,7 +78,7 @@ par(mfrow=c(1,1), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.4,0.4,0))
 plot(tPred, t(total$post[1,,5])*100, type="n", lty = 1, lwd = 2,
      xlab="Antal dage siden 1. marts 2020", 
      ylab="Sandsynlighed for voksende antal indlæggelser [%]", 
-     ylim=c(0,100), xaxt="n", xlim=c(0, 150))
+     ylim=c(0,100), xaxt="n", xlim=c(0, 154))
 
 lines(rep(as.Date("2020-03-11") - as.Date("2020-03-01"), 2), c(0, 80), lty=1)
 points(as.Date("2020-03-11") - as.Date("2020-03-01"), 80, pch=21, bg="white")
@@ -101,10 +101,11 @@ lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, c
 lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
+lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 
 lines(tPred, t(total$post[1,,5])*100, type="l", lty = 1, lwd = 2)
-axis(1, c(0, 150), label=c("",""))
-axis(1, seq(0, 145, 14), cex.axis=0.95)
+#axis(1, c(0, 150), label=c("",""))
+axis(1, seq(0, 154, 14), cex.axis=0.95)
 abline(h = 50, lty = 2)
 title("Trend Direction Index", font.main=1)
 
