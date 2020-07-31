@@ -115,6 +115,9 @@ text(as.Date("2020-05-15") - as.Date("2020-03-01"), 99, "Maj", pos=3, cex=0.8)
 text(as.Date("2020-06-15") - as.Date("2020-03-01"), 99, "Juni", pos=3, cex=0.8)
 text(as.Date("2020-07-15") - as.Date("2020-03-01"), 99, "Juli", pos=3, cex=0.8)
 
+text(max(tPred), round(total$post[1,length(tPred),5]*100, 2), 
+     paste(round(total$post[1,length(tPred),5]*100, 2), "%", sep=""), pos=3, cex=0.7)
+
 dev.off()
 
 ########################################################################

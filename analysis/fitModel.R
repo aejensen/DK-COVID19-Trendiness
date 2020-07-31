@@ -16,7 +16,7 @@ parallel:::setDefaultClusterOptions(setup_strategy = "sequential")
 ########################################################
 # Load data
 ########################################################
-#Downloaded July 30th 2020 from
+#Downloaded July 31th 2020 from
 #https://www.ssi.dk/sygdomme-beredskab-og-forskning/sygdomsovervaagning/c/covid19-overvaagning
 d <- read.csv("../data/Newly_admitted_over_time.csv", sep=";")
 
