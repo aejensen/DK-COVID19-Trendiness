@@ -14,7 +14,7 @@ t_end <- length(tPred)
 for(i in t_start:t_end) {
   cat(i, "\n")
   
-  png(filename = paste("../animation/fig_", sprintf("%03d", i - t_start), ".png", sep=""), width = 1024, height = 1024)
+  png(filename = paste("../figures/tmpfig_", sprintf("%03d", i - t_start), ".png", sep=""), width = 1024, height = 1024)
   
   e <- kde2d(f_post[,i], df_post[,i], n = 300, lims=c(0, 10, -2, 2))
 
@@ -27,3 +27,7 @@ for(i in t_start:t_end) {
   
   dev.off()
 }
+
+setwd("../figures")
+system("convert -delay 10 -loop 1 *.png normal_jointPosterior.gif")
+system("rm *.png")

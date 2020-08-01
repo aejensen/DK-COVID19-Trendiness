@@ -2,3 +2,4 @@
 .DS_Store
 *.rds
 analysis/DK-COVID19.RData
+*.RData
