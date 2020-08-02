@@ -3,7 +3,7 @@ title: "COVID-19: Hvornår tænder advarselslampen igen?"
 author: | 
   | Andreas Kryger Jensen og Claus Thorn Ekstrøm
   | Biostatistisk Afdeling, Institut for Folkesundhedsvidenskab, Københavns Universitet 
-date: "24. juli 2020"
+date: "24. juli 2020 (opdateret 30. juli 2020)"
 header-includes:
   - \usepackage{caption}
   - \usepackage{hyperref}
@@ -31,10 +31,10 @@ Et særligt spørgsmål, der kunne være interessant at stille netop nu, er, om 
 
 # Hvordan går det så rent faktisk lige nu?
 
-Vi har udført en analyse med den omtalte metode og de offentlig tilgængelige data fra Statens Serum Institut [@SSI]. Data blev hentet d. 23. juli 2020 og inkluderer perioden fra d. 1. marts 2020 til og med d. 22. juli 2020. Resultatet fra analysen ses i de to følgende figurer.
+Vi har udført en analyse med den omtalte metode og de offentlig tilgængelige data fra Statens Serum Institut [@SSI]. Data blev hentet d. 23. juli 2020 og inkluderer perioden fra d. 1. marts 2020 til og med d. 30. juli 2020. Resultatet fra analysen ses i de to følgende figurer.
 
 \begin{figure}[htb]
-\center\includegraphics{../analysis/fig1}
+\center\includegraphics{../figures/normal_fig1}
 \caption*{Figur 1}
 \end{figure}
 
@@ -43,11 +43,11 @@ Venstre graf i figur 1 viser de daglige indlæggelser som punkter, og det estime
 Længst til højre lader grafen dog til måske at være voksende, og det er denne stigning, som man skal kunne reagere på hurtigst muligt. Hvis stigningen varer ved så begynder epidemien måske at løbe løbsk, hvilket vi gerne vil undgå. Den afledte kurve med tilhørende sandsynlighedsinterval kan sammenfattes i Trend Direction Indekset, der er vist for samme periode i figur 2.
 
 \begin{figure}[htb]
-\center\includegraphics{../analysis/fig2}
+\center\includegraphics{../figures/normal_fig2}
 \caption*{Figur 2}
 \end{figure}
 
-Trend Direction Indekset viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efter 1. marts var det tydeligt, at kurven var voksende, og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 22. juli) har indekset en værdi på 62\%. Dette er 12 procentpoint på den forkerte side af 50\%. Hvis denne sandsynlighed bliver større eller holder ved over en længere periode, er det tid til at overveje at (gen-)indføre tiltag til at reducere danskernes kontaktflader, så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at Trend Direction Indekset ikke siger noget om, hvor kraftigt antallet af nye indlæggelser vokser. Blot at det underliggende forløb er stigende.
+Trend Direction Indekset viser, hvor sikre vi er (i procent) på, at den underliggende kurve er voksende til et givent tidspunkt. Ret hurtigt efter 1. marts var det tydeligt, at kurven var voksende, og vi fik flere og flere daglige indlæggelser. Lige nu (ved den sidste observation d. 30. juli) har indekset en værdi på 71\%. Dette er 21 procentpoint på den forkerte side af 50\%. Hvis denne sandsynlighed bliver større eller holder ved over en længere periode, er det tid til at overveje at (gen-)indføre tiltag til at reducere danskernes kontaktflader, så antallet af indlæggelser ikke løber løbsk. Det skal i parentes bemærkes, at Trend Direction Indekset ikke siger noget om, hvor kraftigt antallet af nye indlæggelser vokser. Blot at det underliggende forløb er stigende.
 
 Vi kan også bruge Trend Direction Indekset i figur 2 til at sammenholde med de tidligere politiske tiltag om at lukke og åbne landet. Datoerne for hvornår Danmark lukkede ned (11/3), skoler op til 5. klasse, vuggestuer og børnehaver åbnede op (15/4), frisører og køreskoler åbnede (20/4), restauranter åbnede (18/5) og gymnasier åbnede (27/5) er vist i figur 2. Med godt 14 dages inkubationstid passer disse fint med de "bølger", man finder for indekset.
 

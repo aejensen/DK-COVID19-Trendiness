@@ -2,6 +2,7 @@ rm(list=ls())
 
 library(rstan)
 library(parallel)
+library(bayesplot)
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -20,15 +21,18 @@ tObs <- as.numeric(as.Date(d$Dato) - as.Date("2020-03-01"))
 ########################################################
 # Fit model
 ########################################################
-sDat <- list(P = 200, 
-             L = 5/2 * max(tObs), 
-             N = nrow(d),
-             x = tObs - mean(tObs), #center time - important!
-             y = d$Total)
+sDat <- list(N = nrow(d),
+             t = tObs - mean(tObs), #center time - important!
+             y = d$Total,
+             P = 120,
+             L = 5/2 * max(tObs))
 
-samps <- sampling(m, data = sDat, iter = 10000, seed = 12345, chains = 4, cores = 4)
+samps <- sampling(m, data = sDat, iter = 25000, seed = 12345, chains = 4, cores = 4)
 
 save.image(file = "DK-COVID19_negbinom.RData") #too big for GitHub
+
+#Trace plot for hyper-parameters
+#mcmc_trace(samps,  pars = c("m", "alpha", "rho", "theta"), n_warmup = 25000/2)
 
 ########################################################
 #
@@ -44,11 +48,11 @@ band <- function(t, l, u, col) {
 
 
 pdf("../figures/negbinom_fig1.pdf", width = 8, height = 5)
-par(bty = "n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
+par(mfrow=c(1,1), bty = "n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
 
 plot(tObs, sDat$y, ylim=c(0,120), type="n",
-     xaxt="n", xlab="Antal dage siden 1. marts 2020",
-     ylab="Antal")
+     xaxt="n", xlab="Number of days since March 1th 2020",
+     ylab="Number")
 axis(1, seq(0, 154, 14), cex.axis=0.95)
 band(tObs, 
      apply(y_pred, 2, quantile, 0.025),
@@ -61,15 +65,13 @@ band(tObs,
 lines(tObs, apply(mu_post, 2, mean), lwd=2)
 points(tObs, sDat$y, pch=19, cex=0.5)
 
-title("Antal daglige indlæggelser", font.main=1)
+title("Daily hospital admissions", font.main=1)
 
 legend("topleft",
-       c("Gennemsnit", "95% CI", "95% prædiktionsinterval"), 
+       c("Posterior mean", "95% CI", "95% posterior prediction interval"), 
        col = c("black", "gray65", "gray90"), lwd = 2, bty="n", cex=0.7, 
        lty = c(1, NA, NA), pch = c(NA, 15, 15), pt.cex=1.5)
-
 dev.off()
-
 
 df <- t(apply(mu_post, 1, function(f) {
   predict(smooth.spline(tObs, f, all.knots = TRUE), deriv=1)$y
@@ -81,7 +83,7 @@ tdi <- apply(df, 2, function(q) mean(q > 0))
 pdf("../figures/negbinom_fig2.pdf", width = 12, height = 6)
 par(mfrow=c(1, 2), bty = "n", mar = c(2.3, 2.3, 1, 0.5), mgp=c(1.3,0.4,0))
 
-plot(tObs, sDat$y, ylim=c(-10,10), type="n",
+plot(tObs, sDat$y, ylim=c(-6,8), type="n",
      xaxt="n", xlab="Antal dage siden 1. marts 2020",
      ylab="Hælding")
 axis(1, seq(0, 154, 14), cex.axis=0.90)
