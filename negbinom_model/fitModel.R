@@ -17,6 +17,7 @@ parallel:::setDefaultClusterOptions(setup_strategy = "sequential")
 ########################################################
 d <- read.csv("../data/Newly_admitted_over_time.csv", sep=";")
 tObs <- as.numeric(as.Date(d$Dato) - as.Date("2020-03-01"))
+#tPred <- seq(min(tObs), max(tObs), length.out = 2*length(tObs))
 
 ########################################################
 # Fit model
@@ -24,10 +25,10 @@ tObs <- as.numeric(as.Date(d$Dato) - as.Date("2020-03-01"))
 sDat <- list(N = nrow(d),
              t = tObs - mean(tObs), #center time - important!
              y = d$Total,
-             P = 120,
-             L = 5/2 * max(tObs))
+             L = 5/2 * max(tObs),
+             P = 120)
 
-samps <- sampling(m, data = sDat, iter = 25000, seed = 12345, chains = 4, cores = 4)
+samps <- sampling(m, data = sDat, iter = 10000, seed = 12345, chains = 4, cores = 4)
 
 save.image(file = "DK-COVID19_negbinom.RData") #too big for GitHub
 
@@ -46,14 +47,13 @@ band <- function(t, l, u, col) {
   polygon(c(t, rev(t)), c(l, rev(u)), col=col, border = NA)
 }
 
-
 pdf("../figures/negbinom_fig1.pdf", width = 8, height = 5)
 par(mfrow=c(1,1), bty = "n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
 
 plot(tObs, sDat$y, ylim=c(0,120), type="n",
      xaxt="n", xlab="Number of days since March 1th 2020",
-     ylab="Number")
-axis(1, seq(0, 154, 14), cex.axis=0.95)
+     ylab="Number", xlim=c(0,168))
+axis(1, seq(0, 168, 14), cex.axis=0.95)
 band(tObs, 
      apply(y_pred, 2, quantile, 0.025),
      apply(y_pred, 2, quantile, 0.975),
@@ -86,7 +86,7 @@ par(mfrow=c(1, 2), bty = "n", mar = c(2.3, 2.3, 1, 0.5), mgp=c(1.3,0.4,0))
 plot(tObs, sDat$y, ylim=c(-6,8), type="n",
      xaxt="n", xlab="Antal dage siden 1. marts 2020",
      ylab="Hælding")
-axis(1, seq(0, 154, 14), cex.axis=0.90)
+axis(1, seq(0, 168, 14), cex.axis=0.90)
 band(tObs, 
      apply(df, 2, quantile, 0.025),
      apply(df, 2, quantile, 0.975),
@@ -96,8 +96,8 @@ abline(h = 0, lty=2)
 
 plot(tObs, tdi * 100, ylim=c(0,100), type="l",
      xaxt="n", xlab="Antal dage siden 1. marts 2020",
-     ylab="Trend Direction Index [%]", lwd=2)
-axis(1, seq(0, 154, 14), cex.axis=0.90)
+     ylab="Trend Direction Index [%]", lwd=2, xlim=c(0,168))
+axis(1, seq(0, 168, 14), cex.axis=0.90)
 abline(h = 50, lty=2)
 dev.off()
 
