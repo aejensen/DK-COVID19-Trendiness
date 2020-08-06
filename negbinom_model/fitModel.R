@@ -99,5 +99,9 @@ plot(tObs, tdi * 100, ylim=c(0,100), type="l",
      ylab="Trend Direction Index [%]", lwd=2, xlim=c(0,168))
 axis(1, seq(0, 168, 14), cex.axis=0.90)
 abline(h = 50, lty=2)
+
+text(max(tObs), round(tdi[length(tObs)]*100, 2), 
+     paste(round(tdi[length(tObs)]*100, 2), "%", sep=""), pos=3, cex=0.7)
+
 dev.off()
 
