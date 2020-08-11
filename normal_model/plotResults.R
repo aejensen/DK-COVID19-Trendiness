@@ -13,7 +13,7 @@ pdf("../figures/normal_fig1.pdf", width = 10, height = 5)
 
 par(mfrow=c(1,2), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
 
-plot(total$t, total$y, pch = 19, xlab="Antal dage siden 1. marts 2020", 
+plot(sDat$t, sDat$y, pch = 19, xlab="Antal dage siden 1. marts 2020", 
      ylab="Antal", type="n", ylim=c(0, 100), xaxt="n", xlim=c(0,168))
 #axis(1, c(0, 150), label=c("",""))
 axis(1, seq(0, 168, 14), cex.axis=0.80)
@@ -24,10 +24,10 @@ lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, c
 lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 
 band(tPred, 
-     apply(total$post[,,1], 2, quantile, prob = 0.025), 
-     apply(total$post[,,1], 2, quantile, prob = 0.975), col = "gray65")
-lines(tPred, apply(total$post[,,1], 2, mean), lwd = 2)
-points(total$t, total$y, pch = 19, cex=0.5)
+     apply(posterior[,,1], 2, quantile, prob = 0.025), 
+     apply(posterior[,,1], 2, quantile, prob = 0.975), col = "gray65")
+lines(tPred, apply(posterior[,,1], 2, mean), lwd = 2)
+points(sDat$t, sDat$y, pch = 19, cex=0.5)
 legend(100, 98,
        c("Gennemsnit", "95% sandsynlighedsinterval"), 
        col = c("black", "gray65"), lwd = 2, bty="n", cex=0.7, 
@@ -42,7 +42,7 @@ text(as.Date("2020-07-15") - as.Date("2020-03-01"), 96, "Juli", pos=3, cex=0.8)
 
 #
 
-plot(tPred, apply(total$post[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,168),
+plot(tPred, apply(posterior[,,3], 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,168),
      ylim=c(-6, 8), xlab="Antal dage siden 1. marts 2020", 
      ylab="Hældning", xaxt="n")
 
@@ -56,9 +56,9 @@ axis(2, seq(-8, 8, 2))
 #axis(1, c(0, 150), label=c("",""))
 axis(1, seq(0, 168, 14), cex.axis=0.80)
 band(tPred, 
-     apply(total$post[,,3], 2, quantile, prob = 0.025), 
-     apply(total$post[,,3], 2, quantile, prob = 0.975), col = "gray65")
-lines(tPred, apply(total$post[,,3], 2, mean), lwd = 2)
+     apply(posterior[,,3], 2, quantile, prob = 0.025), 
+     apply(posterior[,,3], 2, quantile, prob = 0.975), col = "gray65")
+lines(tPred, apply(posterior[,,3], 2, mean), lwd = 2)
 abline(h = 0, lty = 2)
 title("Trend for antal indlæggelser", font.main=1)
 
@@ -76,7 +76,7 @@ dev.off()
 pdf("../figures/normal_fig2.pdf", width = 10, height = 5)
 
 par(mfrow=c(1,1), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.4,0.4,0))
-plot(tPred, t(total$post[1,,5])*100, type="n", lty = 1, lwd = 2,
+plot(tPred, t(posterior[1,,5])*100, type="n", lty = 1, lwd = 2,
      xlab="Antal dage siden 1. marts 2020", 
      ylab="Sandsynlighed for voksende antal indlæggelser [%]", 
      ylim=c(0,100), xaxt="n", xlim=c(0, 168))
@@ -104,7 +104,7 @@ lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, c
 lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(0, 100), lty=3, col="gray50")
 
-lines(tPred, t(total$post[1,,5])*100, type="l", lty = 1, lwd = 2)
+lines(tPred, t(posterior[1,,5])*100, type="l", lty = 1, lwd = 2)
 #axis(1, c(0, 150), label=c("",""))
 axis(1, seq(0, 168, 14), cex.axis=0.90)
 abline(h = 50, lty = 2)
@@ -116,18 +116,18 @@ text(as.Date("2020-05-15") - as.Date("2020-03-01"), 99, "Maj", pos=3, cex=0.8)
 text(as.Date("2020-06-15") - as.Date("2020-03-01"), 99, "Juni", pos=3, cex=0.8)
 text(as.Date("2020-07-15") - as.Date("2020-03-01"), 99, "Juli", pos=3, cex=0.8)
 
-text(max(tPred), round(total$post[1,length(tPred),5]*100, 2), 
-     paste(round(total$post[1,length(tPred),5]*100, 2), "%", sep=""), pos=3, cex=0.7)
+text(max(tPred), round(posterior[1,length(tPred),5]*100, 2), 
+     paste(round(posterior[1,length(tPred),5]*100, 2), "%", sep=""), pos=3, cex=0.7)
 
 dev.off()
 
 ########################################################################
 # Summary statistics
 ########################################################################
-round(total$post[1,,5]*100, 2)
+round(posterior[1,,5]*100, 2)
 
 library(rootSolve)
-as.Date("2020-03-01") + round(uniroot.all(function(x) approxfun(tPred, total$post[1,,5])(x) - 0.5, c(0, 140)))
+as.Date("2020-03-01") + round(uniroot.all(function(x) approxfun(tPred, posterior[1,,5])(x) - 0.5, c(0, 140)))
 
 #uSeq <- seq(0, 2, length.out=100)
 #alarmMat <- sapply(uSeq, function(u) apply(total$post[,,3], 2, function(q) mean(q > u))*100)

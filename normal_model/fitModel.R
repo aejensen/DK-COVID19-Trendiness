@@ -8,8 +8,6 @@ library(parallel)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-m <- stan_model("gptrendFixed.stan")
-
 # Fix a bug in parallel, RStudio and R > 4.0.0 on Mac
 parallel:::setDefaultClusterOptions(setup_strategy = "sequential")
 
@@ -26,7 +24,7 @@ tPred <- seq(min(tObs), max(tObs), length.out = ceiling(length(tObs)*1))
 ########################################################
 # Fit model
 ########################################################
-getTheTrend <- function(t, y) {
+optPar <- function(t, y) {
   rqCov <- function(s, t, alpha, rho, nu) {
     alpha^2 * (1 + (s-t)^2 / (2 * nu * rho^2))^(-nu)
   }
@@ -38,21 +36,21 @@ getTheTrend <- function(t, y) {
     cMat <- outer(t, t, rqCov, par[2], par[3], par[4]) + diag(par[5]^2 , length(t))
     -mvtnorm::dmvnorm(y, mu, cMat, log=TRUE)
   }, lower = c(0,0,0,0,0), upper = c(max(y),100,50,1000,50), control = ctl)
-  par <- opt$optim$bestmem
-  
-  sDat <- list(n = length(t), t = t, y = y, p = length(tPred), tPred = tPred)
-  sDat$mu <- par[1]
-  sDat$alpha <- par[2]
-  sDat$rho <- par[3]
-  sDat$nu <- par[4]
-  sDat$sigma <- par[5]
-  
-  fit <- sampling(m, data = sDat, iter = 10000, seed = 12345, algorithm = "Fixed_param", cores = 4)
-  posterior <- extract(fit, "pred")$pred
-  
-  list(t = t, y = y, par = par, post = posterior)
+  opt$optim$bestmem
 }
 
-total <- getTheTrend(tObs, d$Total)
+pars <- optPar(tObs, d$Total)
+
+sDat <- list(n = length(tObs), t = tObs, y = d$Total, p = length(tPred), tPred = tPred)
+sDat$mu <- pars[1]
+sDat$alpha <- pars[2]
+sDat$rho <- pars[3]
+sDat$nu <- pars[4]
+sDat$sigma <- pars[5]
+
+m <- stan_model("gptrendFixed.stan")
+
+fit <- sampling(m, data = sDat, iter = 10000, seed = 12345, algorithm = "Fixed_param", cores = 4)
+posterior <- extract(fit, "pred")$pred
 
 save.image("DK-COVID19.RData") #too big for GitHub

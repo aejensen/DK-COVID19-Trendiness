@@ -1,16 +1,65 @@
 /* Latent Gaussian Process regression model with negative binomial outcome model
    using the Hilbert space reduced rank method of Solin and Särkkä (2020) and 
-   Riutort-Mayol, Brükner, Andersen, Solin and Vehtari (2020). 
+   Riutort-Mayol, Bürkner, Andersen, Solin and Vehtari (2020). 
    
    Andreas Kryger Jensen, 2020. */
 
 functions {
-	real spd(real alpha, real rho, real w) {
-    /* Spectral density function for SE covariance function */
-    real S = (alpha^2) * sqrt(2*pi()) * rho * exp(-0.5*(rho^2)*(w^2));
-    return S;
+  real besselI(real x, real nu) {
+    real half_x;
+    real log_half_x;
+    real initial;
+    real summand;
+    real biggest;
+    real smallest;
+    real piece;
+    int m;
+    int mp1;
+    
+    half_x = 0.5 * x;
+    log_half_x = log(half_x);
+    m = 0;
+    mp1 = 1;
+    initial = 0;
+    while ((mp1 + nu) < 0) {
+      initial = initial + half_x ^ (2 * m + nu) / (tgamma(mp1) * tgamma(mp1 + nu));
+      m = mp1;
+      mp1 = m + 1;
+    }
+    biggest = -lgamma(mp1) -lgamma(mp1 + nu) + (2 * m + nu) * log_half_x;
+    m = mp1;
+    piece = positive_infinity();
+    smallest = -745.13321911;
+    summand = 0.0;
+    while (piece > smallest) {
+      mp1 = m + 1;
+      piece = -lgamma(mp1) - lgamma(mp1 + nu) + (2 * m + nu) * log_half_x - biggest;
+      summand = summand + exp(piece);
+      m = mp1;
+    }
+    return exp(biggest + log1p(summand)) + initial;
   }
-	
+  
+  real besselK(real x, real nu) {
+    return 0.5 * pi() * (besselI(x, -nu) - besselI(x, nu)) / sin(nu * pi());
+  }
+  
+  real spd_SE(real alpha, real rho, real w) {
+    /* Spectral density function for SE covariance function */
+    return (alpha^2) * sqrt(2*pi()) * rho * exp(-0.5*(rho^2)*(w^2));
+  }
+  
+	real spd_MAT(real alpha, real rho, real w) {
+	  /* Spectral desntiy for Matern covariance function */
+    return 4*alpha^2 * (sqrt(3)/rho)^3 * 1/((sqrt(3)/rho)^2 + w^2)^2;
+	}
+
+  real spd_RQ(real alpha, real rho, real nu, real w) {
+    /* Spectral desntiy for RQ covariance function */
+    real k = pow(2, 1.75 - 0.5*nu) * sqrt(pi()) * alpha^2 * pow(nu, 0.25 + 0.5*nu) * pow(rho, 0.5 + nu);
+    return k * pow(fabs(w), -0.5 + nu) * besselK(-0.5 + nu, sqrt(2)*sqrt(nu)*fabs(w)) / exp(lgamma(nu));
+  }
+  
   real lambda(real L, int p) {
     /* Eigenvalues of Laplacian */
     real lam = ((p*pi()) / (2*L))^2;
@@ -74,7 +123,7 @@ transformed parameters{
   //vector[P] SPD_beta; //Delta_PxP * beta_1xP
 	
   for(p in 1:P){ 
-    diagSPD[p] = sqrt(spd(alpha, rho, sqrt(lambda(L, p)))); 
+    diagSPD[p] = sqrt(spd_SE(alpha, rho, sqrt(lambda(L, p)))); 
   }
    
   // S(sqrt(lambda_p))^(1/2) * beta_p, p = 1,..., P
