@@ -171,4 +171,3 @@ text(max(tObs), round(TDI[length(tObs)]*100, 2),
      paste(round(TDI[length(tObs)]*100, 2), "%", sep=""), pos=1, cex=0.7)
 
 dev.off()
-

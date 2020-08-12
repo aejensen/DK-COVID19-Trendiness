@@ -1,8 +1,10 @@
-/* Latent Gaussian Process regression model with negative binomial outcome model
-   using the Hilbert space reduced rank method of Solin and Särkkä (2020) and 
-   Riutort-Mayol, Brükner, Andersen, Solin and Vehtari (2020). 
+/* 
+  Latent Gaussian Process regression model with negative binomial outcome model
+  using the Hilbert space reduced rank method of Solin and Särkkä (2020) and 
+  Riutort-Mayol, Bürkner, Andersen, Solin and Vehtari (2020). 
    
-   Andreas Kryger Jensen, 2020. */
+   Andreas Kryger Jensen, 2020. 
+*/
 
 functions {
 	real spd(real alpha, real rho, real w) {
