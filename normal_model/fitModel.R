@@ -29,7 +29,7 @@ optPar <- function(t, y) {
     alpha^2 * (1 + (s-t)^2 / (2 * nu * rho^2))^(-nu)
   }
   
-  ctl <- DEoptim.control(itermax = 1000, trace = 100)
+  ctl <- DEoptim.control(itermax = 1500, trace = 100)
   set.seed(1234)
   opt <- DEoptim(function(par) {
     mu <- rep(par[1], length(t))
