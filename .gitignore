@@ -3,3 +3,4 @@
 *.rds
 analysis/DK-COVID19.RData
 *.RData
+models/.Rhistory
