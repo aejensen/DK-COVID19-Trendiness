@@ -62,10 +62,10 @@ yfmax <- 250
 plotLandMarks <- FALSE
 
 if(SAVE) {
-  pdf("../figures/negbinom_fig1_2020.pdf", width = 10, height = 4)
+  pdf("../figures/negbinom_fig1_2020.pdf", width = 16, height = 6.5)
 }
 
-par(mfrow=c(1,2), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(2,1,0))
+par(mfrow=c(1,2), bty="n", mar = c(3, 3, 1, 0), mgp=c(2,1,0))
 
 plot(tObs, dat$y, pch = 19, xlab="Antal dage siden 1. marts 2020", 
      ylab="Antal", type="n", ylim=c(0, 250), xaxt="n", xlim=c(0, tMax), cex.axis=0.75)
