@@ -15,15 +15,15 @@ parallel:::setDefaultClusterOptions(setup_strategy = "sequential")
 # Load data
 ########################################################
 #Downloaded from
-#https://www.ssi.dk/sygdomme-beredskab-og-forskning/sygdomsovervaagning/c/covid19-overvaagning
+#https://covid19.ssi.dk/overvagningsdata/download-fil-med-overvaagningdata
 d <- read.csv("../data/Newly_admitted_over_time.csv", sep=";")
 tObs <- as.numeric(as.Date(d$Dato) - as.Date("2020-03-01"))
 
 dat <- list(N = nrow(d),
             t = tObs - mean(tObs), #center time - important!
             y = d$Total,
-            L = 5/2 * max(tObs),
-            P = 125)
+            P = 200)
+dat$L <- 5/2 * max(dat$t) #boundary correction factor
 
 ########################################################
 # Fit model
@@ -38,7 +38,11 @@ samps <- sampling(m,
                   chains = 4,
                   cores = 4)
 
-#hist(extract(samps, "nu")$nu)
+#Posterior of hyper-parameters
+hist(extract(samps, "m")$m)
+hist(extract(samps, "alpha")$alpha)
+hist(extract(samps, "rho")$rho)
+hist(extract(samps, "nu")$nu)
 
 mu_post <- extract(samps, "mu")$mu
 dmu_post <- extract(samps, "dmu")$dmu
@@ -54,28 +58,29 @@ band <- function(t, l, u, col) {
 
 SAVE <- TRUE
 tMax <- 224 + 14*6
+yfmax <- 250
 plotLandMarks <- FALSE
 
 if(SAVE) {
-  pdf("../figures/negbinom_fig1.pdf", width = 10, height = 4)
+  pdf("../figures/negbinom_fig1_2020.pdf", width = 10, height = 4)
 }
 
-par(mfrow=c(1,2), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(1.3,0.4,0))
+par(mfrow=c(1,2), bty="n", mar = c(2.3, 2.3, 1, 0), mgp=c(2,1,0))
 
 plot(tObs, dat$y, pch = 19, xlab="Antal dage siden 1. marts 2020", 
-     ylab="Antal", type="n", ylim=c(0, 120), xaxt="n", xlim=c(0, tMax), cex.axis=0.75)
+     ylab="Antal", type="n", ylim=c(0, 250), xaxt="n", xlim=c(0, tMax), cex.axis=0.75)
 axis(1, seq(0, tMax, 14), cex.axis=0.7)
-lines(rep(as.Date("2020-03-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-09-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-10-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-11-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2020-12-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
-lines(rep(as.Date("2021-01-01") - as.Date("2020-03-01"), 2), c(0, 120), lty=3, col="gray50")
+lines(rep(as.Date("2020-03-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-09-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-10-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-11-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2020-12-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2021-01-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
 
 band(tObs, 
      apply(y_pred, 2, quantile, 0.025),
@@ -88,41 +93,41 @@ band(tObs,
 lines(tObs, apply(mu_post, 2, mean), lwd=2)
 points(tObs, dat$y, pch=19, cex=0.5)
 
-legend(170, 115,
+legend(0, 250,
        c("Gennemsnit", "95% sandsynlighedsinterval", "95% prædiktionsinterval"), 
        col = c("black", "gray65", "gray90"), lwd = 2, bty="n", cex=0.7, 
        lty = c(1, NA, NA), pch = c(NA, 15, 15), pt.cex=1.5)
 title("Antal daglige indlæggelser", font.main=1)
 
-text(as.Date("2020-03-15") - as.Date("2020-03-01"), 116, "Mar", pos=3, cex=0.8)
-text(as.Date("2020-04-15") - as.Date("2020-03-01"), 116, "Apr", pos=3, cex=0.8)
-text(as.Date("2020-05-15") - as.Date("2020-03-01"), 116, "Maj", pos=3, cex=0.8)
-text(as.Date("2020-06-15") - as.Date("2020-03-01"), 116, "Jun", pos=3, cex=0.8)
-text(as.Date("2020-07-15") - as.Date("2020-03-01"), 116, "Jul", pos=3, cex=0.8)
-text(as.Date("2020-08-15") - as.Date("2020-03-01"), 116, "Aug", pos=3, cex=0.8)
-text(as.Date("2020-09-15") - as.Date("2020-03-01"), 116, "Sep", pos=3, cex=0.8)
-text(as.Date("2020-10-15") - as.Date("2020-03-01"), 116, "Okt", pos=3, cex=0.8)
-text(as.Date("2020-11-15") - as.Date("2020-03-01"), 116, "Nov", pos=3, cex=0.8)
-text(as.Date("2020-12-15") - as.Date("2020-03-01"), 116, "Dec", pos=3, cex=0.8)
+text(as.Date("2020-03-15") - as.Date("2020-03-01"), yfmax, "Mar", pos=3, cex=0.8)
+text(as.Date("2020-04-15") - as.Date("2020-03-01"), yfmax, "Apr", pos=3, cex=0.8)
+text(as.Date("2020-05-15") - as.Date("2020-03-01"), yfmax, "Maj", pos=3, cex=0.8)
+text(as.Date("2020-06-15") - as.Date("2020-03-01"), yfmax, "Jun", pos=3, cex=0.8)
+text(as.Date("2020-07-15") - as.Date("2020-03-01"), yfmax, "Jul", pos=3, cex=0.8)
+text(as.Date("2020-08-15") - as.Date("2020-03-01"), yfmax, "Aug", pos=3, cex=0.8)
+text(as.Date("2020-09-15") - as.Date("2020-03-01"), yfmax, "Sep", pos=3, cex=0.8)
+text(as.Date("2020-10-15") - as.Date("2020-03-01"), yfmax, "Okt", pos=3, cex=0.8)
+text(as.Date("2020-11-15") - as.Date("2020-03-01"), yfmax, "Nov", pos=3, cex=0.8)
+text(as.Date("2020-12-15") - as.Date("2020-03-01"), yfmax, "Dec", pos=3, cex=0.8)
 
 plot(tObs, apply(dmu_post, 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,tMax),
-     ylim=c(-6, 8), xlab="Antal dage siden 1. marts 2020", 
+     ylim=c(-10, 10), xlab="Antal dage siden 1. marts 2020", 
      ylab="Hældning", xaxt="n")
-
-lines(rep(as.Date("2020-02-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-09-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-10-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-11-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2020-12-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-lines(rep(as.Date("2021-01-01") - as.Date("2020-03-01"), 2), c(-6, 8), lty=3, col="gray50")
-
-axis(2, seq(-6, 8, 2), cex.axis=0.7)
+axis(2, seq(-10, 10, 2), cex.axis=0.7)
 axis(1, seq(0, tMax, 14), cex.axis=0.7)
+
+lines(rep(as.Date("2020-03-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-04-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-05-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-06-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-07-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-08-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-09-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-10-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-11-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2020-12-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2021-01-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+
 band(tObs, 
      apply(dmu_post, 2, quantile, prob = 0.025), 
      apply(dmu_post, 2, quantile, prob = 0.975), col = "gray65")
@@ -130,16 +135,16 @@ lines(tObs, apply(dmu_post, 2, mean), lwd = 2)
 abline(h = 0, lty = 2)
 title("Trend for antal indlæggelser", font.main=1)
 
-text(as.Date("2020-03-15") - as.Date("2020-03-01"), 7.5, "Mar", pos=3, cex=0.8)
-text(as.Date("2020-04-15") - as.Date("2020-03-01"), 7.5, "Apr", pos=3, cex=0.8)
-text(as.Date("2020-05-15") - as.Date("2020-03-01"), 7.5, "Maj", pos=3, cex=0.8)
-text(as.Date("2020-06-15") - as.Date("2020-03-01"), 7.5, "Jun", pos=3, cex=0.8)
-text(as.Date("2020-07-15") - as.Date("2020-03-01"), 7.5, "Jul", pos=3, cex=0.8)
-text(as.Date("2020-08-15") - as.Date("2020-03-01"), 7.5, "Aug", pos=3, cex=0.8)
-text(as.Date("2020-09-15") - as.Date("2020-03-01"), 7.5, "Sep", pos=3, cex=0.8)
-text(as.Date("2020-10-15") - as.Date("2020-03-01"), 7.5, "Okt", pos=3, cex=0.8)
-text(as.Date("2020-11-15") - as.Date("2020-03-01"), 7.5, "Nov", pos=3, cex=0.8)
-text(as.Date("2020-12-15") - as.Date("2020-03-01"), 7.5, "Dec", pos=3, cex=0.8)
+text(as.Date("2020-03-15") - as.Date("2020-03-01"), 10, "Mar", pos=3, cex=0.8)
+text(as.Date("2020-04-15") - as.Date("2020-03-01"), 10, "Apr", pos=3, cex=0.8)
+text(as.Date("2020-05-15") - as.Date("2020-03-01"), 10, "Maj", pos=3, cex=0.8)
+text(as.Date("2020-06-15") - as.Date("2020-03-01"), 10, "Jun", pos=3, cex=0.8)
+text(as.Date("2020-07-15") - as.Date("2020-03-01"), 10, "Jul", pos=3, cex=0.8)
+text(as.Date("2020-08-15") - as.Date("2020-03-01"), 10, "Aug", pos=3, cex=0.8)
+text(as.Date("2020-09-15") - as.Date("2020-03-01"), 10, "Sep", pos=3, cex=0.8)
+text(as.Date("2020-10-15") - as.Date("2020-03-01"), 10, "Okt", pos=3, cex=0.8)
+text(as.Date("2020-11-15") - as.Date("2020-03-01"), 10, "Nov", pos=3, cex=0.8)
+text(as.Date("2020-12-15") - as.Date("2020-03-01"), 10, "Dec", pos=3, cex=0.8)
 
 if(SAVE) {
   dev.off()
@@ -149,7 +154,7 @@ if(SAVE) {
 # Figure 2
 ########################################################################
 if(SAVE) {
-  pdf("../figures/negbinom_fig2.pdf", width = 10, height = 5)
+  pdf("../figures/negbinom_fig2_2020.pdf", width = 10, height = 5)
 }
 
 par(mfrow=c(1,1), bty="n", mar = c(2.5, 2.3, 1, 0), mgp=c(1.4,0.4,0))
@@ -213,5 +218,3 @@ if(SAVE) {
 	dev.off()
 }
 
-####################################################################################
-plot(colMeans(log(mu_post)), colMeans(dmu_post), type="o", col = fields::tim.colors(n = length(tObs)), lwd=5)
