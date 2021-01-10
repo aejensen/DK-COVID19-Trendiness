@@ -56,8 +56,8 @@ band <- function(t, l, u, col) {
   polygon(c(t, rev(t)), c(l, rev(u)), col=col, border = NA)
 }
 
-SAVE <- TRUE
-tMax <- 224 + 14*6
+SAVE <- FALSE
+tMax <- 224 + 14*12
 yfmax <- 250
 plotLandMarks <- FALSE
 
@@ -81,6 +81,8 @@ lines(rep(as.Date("2020-10-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, c
 lines(rep(as.Date("2020-11-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
 lines(rep(as.Date("2020-12-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
 lines(rep(as.Date("2021-01-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2021-02-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
+lines(rep(as.Date("2021-03-01") - as.Date("2020-03-01"), 2), c(0, 250), lty=3, col="gray50")
 
 band(tObs, 
      apply(y_pred, 2, quantile, 0.025),
@@ -109,6 +111,9 @@ text(as.Date("2020-09-15") - as.Date("2020-03-01"), yfmax, "Sep", pos=3, cex=0.8
 text(as.Date("2020-10-15") - as.Date("2020-03-01"), yfmax, "Okt", pos=3, cex=0.8)
 text(as.Date("2020-11-15") - as.Date("2020-03-01"), yfmax, "Nov", pos=3, cex=0.8)
 text(as.Date("2020-12-15") - as.Date("2020-03-01"), yfmax, "Dec", pos=3, cex=0.8)
+text(as.Date("2021-01-15") - as.Date("2020-03-01"), yfmax, "Jan", pos=3, cex=0.8)
+text(as.Date("2021-02-15") - as.Date("2020-03-01"), yfmax, "Feb", pos=3, cex=0.8)
+text(as.Date("2021-03-15") - as.Date("2020-03-01"), yfmax, "Mar", pos=3, cex=0.8)
 
 plot(tObs, apply(dmu_post, 2, mean), lwd = 2, type="n", yaxt="n", xlim=c(0,tMax),
      ylim=c(-10, 10), xlab="Antal dage siden 1. marts 2020", 
@@ -127,6 +132,8 @@ lines(rep(as.Date("2020-10-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, 
 lines(rep(as.Date("2020-11-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
 lines(rep(as.Date("2020-12-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
 lines(rep(as.Date("2021-01-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2021-02-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
+lines(rep(as.Date("2021-03-01") - as.Date("2020-03-01"), 2), c(-10, 10), lty=3, col="gray50")
 
 band(tObs, 
      apply(dmu_post, 2, quantile, prob = 0.025), 
@@ -145,6 +152,9 @@ text(as.Date("2020-09-15") - as.Date("2020-03-01"), 10, "Sep", pos=3, cex=0.8)
 text(as.Date("2020-10-15") - as.Date("2020-03-01"), 10, "Okt", pos=3, cex=0.8)
 text(as.Date("2020-11-15") - as.Date("2020-03-01"), 10, "Nov", pos=3, cex=0.8)
 text(as.Date("2020-12-15") - as.Date("2020-03-01"), 10, "Dec", pos=3, cex=0.8)
+text(as.Date("2021-01-15") - as.Date("2020-03-01"), 10, "Jan", pos=3, cex=0.8)
+text(as.Date("2021-02-15") - as.Date("2020-03-01"), 10, "Feb", pos=3, cex=0.8)
+text(as.Date("2021-03-15") - as.Date("2020-03-01"), 10, "Mar", pos=3, cex=0.8)
 
 if(SAVE) {
   dev.off()
